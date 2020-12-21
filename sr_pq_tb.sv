@@ -1,4 +1,5 @@
 module sr_pq_tb;
+  parameter KW=4, VW=4, DEPTH=4;
 
   // DUV inputs
   logic clk, rst, push, pop;
@@ -11,11 +12,11 @@ module sr_pq_tb;
   logic [VW-1:0] val_in;
   assign kvi = {key_in,val_in};
 
-  parameter KW=4, VW=4, DEPTH=4;
+
 
   sr_pq #(.KW(KW), .VW(VW), .DEPTH(DEPTH)) DUV (
     .clk, .rst, .push, .pop,
-    .kvi, kvo, full, empty
+    .kvi, .kvo, .full, .empty
   );
 
   always begin
@@ -32,18 +33,31 @@ module sr_pq_tb;
       val_in = 4;
       push = 1;
       @(posedge clk) #1;
-      key_in = 1;
-      val_in = 1;
-      push = 1;
-      @(posedge clk) #1;
-      push = 0;
-      @(posedge clk) #1;
       key_in = 5;
       val_in = 5;
       push = 1;
       @(posedge clk) #1;
-      k_in = 3;
+      push = 0;
+      @(posedge clk) #1;
+      key_in = 6;
+      val_in = 6;
+      push = 1;
+      @(posedge clk) #1;
+      key_in = 3;
       val_in = 3;
+      @(posedge clk) #1;
+      push = 0;
+      @(posedge clk) #1;
+      pop = 1;
+      @(posedge clk) #1;
+      pop = 0;
+      @(posedge clk) #1;
+      push = 1;
+      pop = 1;
+      key_in = 7;
+      val_in = 7;
+      @(posedge clk) #1;
+      push = 0;
       @(posedge clk) #1;
       $stop;
   end
